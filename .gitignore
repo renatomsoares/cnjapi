@@ -203,6 +203,6 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
-/.vs/ProcessoApi/v15/Server/sqlite3
-/.vs/ProcessoApi/config
-/.vs/ProcessoApi/v16/Server/sqlite3
+
+# Visual Studio 2015/2017 cache/options directory
+.vs/
