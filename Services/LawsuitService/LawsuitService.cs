@@ -21,6 +21,7 @@ namespace Services
     {
         private readonly IUnitOfWork _uow;
         private readonly IConfiguration _configuration;
+
         public LawsuitService(IUnitOfWork uow, IConfiguration configuration) : base(uow)
         {
             _uow = uow;
