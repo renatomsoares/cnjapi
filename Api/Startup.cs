@@ -87,7 +87,7 @@ namespace Api
                     Description = "National Council of Justice.",
                     Contact = new Microsoft.OpenApi.Models.OpenApiContact
                     {
-                        Name = "Renato Mesquita Soares",
+                        Name = "Renato Mesquita Soares (cicd test 1)",
                         Email = "rmsnatal@gmail.com",
                         //Url = "https://www.linkedin.com/in/renatomsoares/"
                     }
