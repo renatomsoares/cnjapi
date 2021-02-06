@@ -32,6 +32,5 @@ namespace Infra.Repository._BaseRepository.Interfaces
 
         void Detach(T obj);
 
-
     }
 }

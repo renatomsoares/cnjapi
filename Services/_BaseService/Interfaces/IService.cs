@@ -11,9 +11,7 @@ namespace Services._BaseService.Interfaces
     {
         T Add<V>(T obj, string ruleSet) where V : AbstractValidator<T>;
         T Update<V>(T obj, string ruleSet) where V : AbstractValidator<T>;
-        void Delete(int id);
         void Delete(T entity);
-        void Delete<V>(T entity, string ruleSet) where V : AbstractValidator<T>;
         IEnumerable<T> GetAll(
             Expression<Func<T, bool>> predicate = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,

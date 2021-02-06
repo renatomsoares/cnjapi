@@ -45,7 +45,18 @@ namespace Infra.Repository._BaseRepository
             return query.FirstOrDefault();
         }
 
-  
+        /// <summary>
+        /// GetList using orderby, include, tracking and paginate result
+        /// </summary>
+        /// <used>
+        /// Usado no BaseService em GetALL
+        /// </used>
+        /// <param name="orderBy"></param>
+        /// <param name="include"></param>
+        /// <param name="index"></param>
+        /// <param name="size"></param>
+        /// <param name="disableTracking"></param>
+        /// <returns></returns>
         public IPaginate<T> GetList(
             Expression<Func<T, bool>> predicate = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
@@ -116,6 +127,5 @@ namespace Infra.Repository._BaseRepository
         {
             _dbContext.Entry(obj).State = EntityState.Detached;
         }
-
     }
 }

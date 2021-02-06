@@ -12,7 +12,6 @@ namespace Services._BaseService
     public class BaseService<T> : IService<T> where T : class
     {
         private readonly IUnitOfWork _uow;
-        public Object _tokenInfo;
 
         public BaseService(IUnitOfWork uow)
         {
@@ -59,50 +58,14 @@ namespace Services._BaseService
         }
 
         /// <summary>
-        /// Delete by id without Fluent Validator
-        /// </summary>
-        /// <param name="id"></param>
-        public void Delete(int id)
-        {
-            if (id == 0)
-                throw new ArgumentException("O Id não pode ser zero.");
-
-            var repo = _uow.GetRepository<T>();
-            repo.Delete(id);
-
-            //Validate
-            _uow.SaveChanges();
-        }
-
-
-        /// <summary>
-        /// Delete by entity without Fluent Validator
+        /// Delete by entity
         /// </summary>
         /// <param name="id"></param>
         public void Delete(T entity)
         {
             if (entity == null)
-                throw new ArgumentException("Entidade não encontrada");
+                throw new ArgumentException("Not found entity.");
 
-            var repo = _uow.GetRepository<T>();
-            repo.Delete(entity);
-
-            //Validate
-            _uow.SaveChanges();
-        }
-
-        /// <summary>
-        /// Deletar Entidade por ID sem validação
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="entity"></param>
-        /// <param name="ruleSet"></param>
-        public void Delete<V>(T entity, string ruleSet = "*") where V : AbstractValidator<T>
-        {
-            if (entity == null)
-                throw new ArgumentException("Entidade não encontrada");
-
-            Validate(entity, Activator.CreateInstance<V>(), ruleSet);
             var repo = _uow.GetRepository<T>();
             repo.Delete(entity);
 
@@ -145,7 +108,7 @@ namespace Services._BaseService
         private void Validate(T obj, AbstractValidator<T> validator, string ruleSet = "*")
         {
             if (obj == null)
-                throw new Exception("Registros não detectados!");
+                throw new Exception("No detected registers!");
 
             validator.ValidateAndThrow(obj, ruleSet);
         }

@@ -8,9 +8,6 @@ namespace Infra.UnitOfWork
     public interface IUnitOfWork : IDisposable
     {
         IRepository<TEntity> GetRepository<TEntity>() where TEntity : class;
-        void ForceBeginTransaction();
-        void CommitTransaction();
-        void RollbackTransaction();
         int SaveChanges();
     }
 
