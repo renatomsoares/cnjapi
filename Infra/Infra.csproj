@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+     <noWarn>0219,1591,1573,1701</noWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.3" />
+    <PackageReference Include="Dapper.Contrib" Version="1.50.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="CrossCutting\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="CrossCutting\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="CrossCutting\**" />
+  </ItemGroup>
+</Project>

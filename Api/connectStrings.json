@@ -1,0 +1,5 @@
+﻿{
+  "ConnectionStrings": {
+    "CNJDB_Lawsuits": "Data Source=cnjdb.database.windows.net;uid=lawsuits;password=l4wsu1ts-;Initial Catalog=lawsuits;"
+  }
+}

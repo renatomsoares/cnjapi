@@ -1,1 +1,7 @@
-# cnjapi
+# CNJ API
+
+## Local setup
+
+## Features
+
+## ...
