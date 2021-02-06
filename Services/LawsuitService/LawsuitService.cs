@@ -26,5 +26,14 @@ namespace Services
             _uow = uow;
             _configuration = configuration;
         }
+
+        public void LawsuitPrevalidations(LawsuitDTO lawsuitDto) 
+        {
+            // 1 - Number case exists
+            List<Lawsuit> lawsuits = GetAll(x => x.CaseNumber == lawsuitDto.CaseNumber).ToList();
+
+            if (lawsuits.Count > 0)
+                throw new ValidationException("Case number exists.");
+        }
     }
 }

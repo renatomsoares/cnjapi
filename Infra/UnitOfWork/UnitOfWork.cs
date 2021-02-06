@@ -1,5 +1,4 @@
-﻿using Infra.Dapper;
-using Infra.Repository._BaseRepository;
+﻿using Infra.Repository._BaseRepository;
 using Infra.Repository._BaseRepository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,15 +18,13 @@ namespace Infra.UnitOfWork
     {
         private Dictionary<Type, object> _repositories;
         public TContext Context { get; }
-        private readonly DapperBaseConnection _dapperBaseConnection;
         private IDbContextTransaction _transaction;
         private IsolationLevel? _isolationLevel;
         private readonly IConfiguration _config;
 
-        public UnitOfWork(TContext context, DapperBaseConnection dapperBaseConnection, IConfiguration config)
+        public UnitOfWork(TContext context, IConfiguration config)
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
-            _dapperBaseConnection = dapperBaseConnection;
             _config = config;
         }
 
@@ -38,32 +35,6 @@ namespace Infra.UnitOfWork
             var type = typeof(TEntity);
             if (!_repositories.ContainsKey(type)) _repositories[type] = new Repository<TEntity>(Context);
             return (IRepository<TEntity>)_repositories[type];
-        }
-
-        public IRepositoryDapper<TEntity> GetRepositoryDapper<TEntity>() where TEntity : class
-        {
-            if (_repositories == null) _repositories = new Dictionary<Type, object>();
-            var type = typeof(TEntity);
-            if (!_repositories.ContainsKey(type)) _repositories[type] = new RepositoryDapper<TEntity>(_dapperBaseConnection, _config);
-            return (IRepositoryDapper<TEntity>)_repositories[type];
-        }
-
-        public IRepositoryAsync<TEntity> GetRepositoryAsync<TEntity>() where TEntity : class
-        {
-            if (_repositories == null) _repositories = new Dictionary<Type, object>();
-
-            var type = typeof(TEntity);
-            if (!_repositories.ContainsKey(type)) _repositories[type] = new RepositoryAsync<TEntity>(Context);
-            return (IRepositoryAsync<TEntity>)_repositories[type];
-        }
-
-        public IRepositoryReadOnly<TEntity> GetReadOnlyRepository<TEntity>() where TEntity : class
-        {
-            if (_repositories == null) _repositories = new Dictionary<Type, object>();
-
-            var type = typeof(TEntity);
-            if (!_repositories.ContainsKey(type)) _repositories[type] = new RepositoryReadOnly<TEntity>(Context);
-            return (IRepositoryReadOnly<TEntity>)_repositories[type];
         }
         
         /// <summary>

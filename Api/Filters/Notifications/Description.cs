@@ -1,6 +1,6 @@
 ﻿namespace Application.Filters.Notifications
 {
-    public abstract class Description : IDescription
+    public abstract class Description
     {
         public string Message { get; }
 
@@ -16,6 +16,4 @@
 
         public override string ToString() => Message;
     }
-
-   
 }

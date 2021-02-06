@@ -1,17 +1,19 @@
 using System.Linq;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Application.Filters {
     public class IgnorePropertiesSchemaFilter : ISchemaFilter {
-        public void Apply (Schema schema, SchemaFilterContext context) {
+
+        public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+        {
             if (schema.Properties == null) return;
 
             schema.Properties = schema.Properties
-                .Where (entry => {
+                .Where(entry => {
                     return !(entry.Key == "notifications");
                 })
-                .ToDictionary (entry => entry.Key, entry => entry.Value);
+                .ToDictionary(entry => entry.Key, entry => entry.Value);
         }
     }
 

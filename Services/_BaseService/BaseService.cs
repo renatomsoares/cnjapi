@@ -136,16 +136,6 @@ namespace Services._BaseService
             return repo.Select(predicate);
         }
 
-        public IEnumerable<T> Query(string sql)
-        {
-            //Set repository you will working
-            //var repo = _uow.GetRepository<T>();
-            var repo = _uow.GetRepositoryDapper<T>();
-            //return
-            //return repo.Query(sql).AsEnumerable();
-            return repo.GetData(sql).AsEnumerable();
-        }
-
         public void Detach(T obj)
         {
             var repo = _uow.GetRepository<T>();

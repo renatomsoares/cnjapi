@@ -2,7 +2,7 @@
 
 namespace Application.Filters.Notifications
 {
-    public class Notification : INotification
+    public class Notification
     {
         public IList<string> Erros { get; } = new List<string>();
         public void Add(string description)

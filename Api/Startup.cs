@@ -7,13 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
 using Application.AutoMapper;
 using Application.Filters;
 using Application.Filters.Logger;
 using Infra.Contexts;
-using Infra.Dapper;
 using Infra.UnitOfWork;
 using Services;
 using Newtonsoft.Json;
@@ -22,6 +20,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net.Http.Headers;
+using System.Text.Json;
 
 namespace Api
 {
@@ -50,7 +49,7 @@ namespace Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddRazorPages();
 
             services.AddCors(o => o.AddPolicy("AllowAll", builder =>
             {
@@ -64,61 +63,42 @@ namespace Api
                 options => options.UseSqlServer(Configuration["ConnectionStrings:CNJDB_Lawsuits"], builder => builder.UseRowNumberForPaging())
             );
 
-            //Using Dapper Connection (Only to strong queries)
-            services.AddDapper(options =>
-            {
-                options.ConnectionString = Configuration["ConnectionStrings:CNJDB_Lawsuits"];
-            });
-
             //Using mvc pattern
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(MidExceptionFilter));
             });
 
-            services.AddMvc().AddJsonOptions(options =>
+            services.AddMvc().AddJsonOptions(o =>
             {
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                o.JsonSerializerOptions.PropertyNamingPolicy = null;
+                o.JsonSerializerOptions.DictionaryKeyPolicy = null;
             });
 
+
+            
             //Using Swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
                 {
                     Title = $"CNJ API - Environment: {_environmentName}",
                     Version = "v1",
                     Description = "National Council of Justice.",
-                    Contact = new Contact
+                    Contact = new Microsoft.OpenApi.Models.OpenApiContact
                     {
                         Name = "Renato Mesquita Soares",
                         Email = "rmsnatal@gmail.com",
-                        Url = "https://www.linkedin.com/in/renatomsoares/"
+                        //Url = "https://www.linkedin.com/in/renatomsoares/"
                     }
                 });
-
-                //c.TagActionsBy(api => api.HttpMethod); //Order Swagger by http methods
-
-                /*
-                c.AddSecurityDefinition("Bearer", new ApiKeyScheme { In = "header", Description = "Favor informar token com bearer no começo separado por espaço", Name = "Authorization", Type = "apiKey" });
-                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> {
-                    { "Bearer", Enumerable.Empty<string>() },
-                });
-                */
 
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
                 c.SchemaFilter<IgnorePropertiesSchemaFilter>();
                 c.IgnoreObsoleteActions();
                 c.DescribeAllEnumsAsStrings();
-
-                /*
-                //Incluindo XML p/ Documentação do Swagger
-                var caminhoAplicacao = PlatformServices.Default.Application.ApplicationBasePath;
-                var nomeAplicacao = PlatformServices.Default.Application.ApplicationName;
-                var caminhoXmlDoc = Path.Combine(caminhoAplicacao, $"{nomeAplicacao}.xml");
-                c.IncludeXmlComments(caminhoXmlDoc);
-                */
             });
+            
 
 
             /* 
@@ -153,25 +133,22 @@ namespace Api
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
 
-            RequestLocalizationOptions localizationOptions = new RequestLocalizationOptions
-            {
-                SupportedCultures = new List<CultureInfo> { new CultureInfo("pt-BR") },
-                SupportedUICultures = new List<CultureInfo> { new CultureInfo("pt-BR") },
-                DefaultRequestCulture = new RequestCulture("pt-BR")
-            };
-            app.UseRequestLocalization(localizationOptions);
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
-                app.UseBrowserLink();
                 app.UsePathBase("/api");
             }
 
             // Cors
-            app.UseCors("AllowAll");
-            app.UseMvc();
+            app.UseStaticFiles();
+            app.UseRouting();
+            app.UseCors();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
+            });
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

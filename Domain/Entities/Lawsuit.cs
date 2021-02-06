@@ -11,5 +11,10 @@ namespace Domain.Entities
         public string CourtName { get; set; }
         public string ResponsibleName { get; set; }
         public DateTime RegistrationDate { get; set; }
+
+        Lawsuit()
+        {
+            RegistrationDate = DateTime.Now;
+        }
     }
 }

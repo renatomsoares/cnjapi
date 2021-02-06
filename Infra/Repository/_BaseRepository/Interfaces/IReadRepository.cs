@@ -8,9 +8,6 @@ namespace Infra.Repository._BaseRepository.Interfaces
 {
     public interface IReadRepository<T> where T : class
     {
-
-        IQueryable<T> Query(string sql, params object[] parameters);
-
         T Single(Expression<Func<T, bool>> predicate = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
