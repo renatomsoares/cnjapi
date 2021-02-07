@@ -61,7 +61,7 @@ namespace Services._BaseService
         /// Delete by entity
         /// </summary>
         /// <param name="id"></param>
-        public void Delete(T entity)
+        public virtual void Delete(T entity)
         {
             if (entity == null)
                 throw new ArgumentException("Not found entity.");
