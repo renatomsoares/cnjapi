@@ -20,12 +20,10 @@ namespace Services
     public class LawsuitService : BaseService<Lawsuit>
     {
         private readonly IUnitOfWork _uow;
-        private readonly IConfiguration _configuration;
 
-        public LawsuitService(IUnitOfWork uow, IConfiguration configuration) : base(uow)
+        public LawsuitService(IUnitOfWork uow) : base(uow)
         {
             _uow = uow;
-            _configuration = configuration;
         }
 
         public void LawsuitPrevalidations(LawsuitDTO lawsuitDto) 

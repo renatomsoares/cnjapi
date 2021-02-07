@@ -22,7 +22,6 @@ namespace Infra.Repository._BaseRepository
         public void Delete(T entity)
         {
             _dbSet.Remove(entity);
-
         }
 
         public void Update(T entity)

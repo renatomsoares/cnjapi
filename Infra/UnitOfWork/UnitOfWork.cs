@@ -18,7 +18,6 @@ namespace Infra.UnitOfWork
     {
         private Dictionary<Type, object> _repositories;
         public TContext Context { get; }
-        private IDbContextTransaction _transaction;
 
         public UnitOfWork(TContext context)
         {
@@ -33,6 +32,8 @@ namespace Infra.UnitOfWork
             if (!_repositories.ContainsKey(type)) _repositories[type] = new Repository<TEntity>(Context);
             return (IRepository<TEntity>)_repositories[type];
         }
+
+
 
         /// <summary>
         /// SaveChanges method if want to save token data.
@@ -50,7 +51,6 @@ namespace Infra.UnitOfWork
                 throw new ValidationException(ex.Message);
             }
         }
-
         public void Dispose()
         {
             Context?.Dispose();

@@ -17,6 +17,13 @@
    <DocumentationFile>bin\Release\netcoreapp2.2\Application.xml</DocumentationFile>
      <noWarn>0219,1591,1573,1701</noWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="wwwroot\**" />
+  </ItemGroup>
  
  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.1.1" />
@@ -46,7 +53,6 @@
   
   <ItemGroup>
     <Folder Include="logs\" />
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 

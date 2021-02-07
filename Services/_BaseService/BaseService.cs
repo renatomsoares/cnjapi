@@ -77,7 +77,7 @@ namespace Services._BaseService
         /// Get all data.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<T> GetAll(
+        public virtual IEnumerable<T> GetAll(
             Expression<Func<T, bool>> predicate = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
@@ -91,7 +91,7 @@ namespace Services._BaseService
             return repo.GetList(predicate, orderBy, include, index, size, disableTracking).Items.AsEnumerable();
         }
 
-        public T GetById(Expression<Func<T, bool>> predicate)
+        public virtual T GetById(Expression<Func<T, bool>> predicate)
         {
             //Set repository you will working
             var repo = _uow.GetRepository<T>();

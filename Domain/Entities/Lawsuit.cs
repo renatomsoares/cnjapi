@@ -12,7 +12,7 @@ namespace Domain.Entities
         public string ResponsibleName { get; set; }
         public DateTime RegistrationDate { get; set; }
 
-        Lawsuit()
+        public Lawsuit()
         {
             RegistrationDate = DateTime.Now;
         }

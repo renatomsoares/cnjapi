@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,27 +6,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Swashbuckle.AspNetCore.Swagger;
 using Application.AutoMapper;
 using Application.Filters;
-using Application.Filters.Logger;
 using Infra.Contexts;
 using Infra.UnitOfWork;
 using Services;
-using Newtonsoft.Json;
-using System.Globalization;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Net.Http.Headers;
-using System.Text.Json;
 
 namespace Api
 {
     public class Startup
     {
         private readonly string _environmentName;
-        private IHostingEnvironment _environment;
         private IConfiguration Configuration { get; }
 
         public Startup(IHostingEnvironment env)
@@ -43,7 +33,6 @@ namespace Api
             Configuration = builder.Build();
 
             _environmentName = env.EnvironmentName;
-            _environment = env;
             ConfigureMap.Configure(); //autoMapper
         }
 
@@ -75,8 +64,6 @@ namespace Api
                 o.JsonSerializerOptions.DictionaryKeyPolicy = null;
             });
 
-
-            
             //Using Swagger
             services.AddSwaggerGen(c =>
             {
@@ -96,10 +83,7 @@ namespace Api
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
                 c.SchemaFilter<IgnorePropertiesSchemaFilter>();
                 c.IgnoreObsoleteActions();
-                c.DescribeAllEnumsAsStrings();
             });
-            
-
 
             /* 
             => Dependency Injection
@@ -108,7 +92,7 @@ namespace Api
             - Singleton
             */
             services.AddTransient<IUnitOfWork, UnitOfWork<CNJDBContext>>();
-            services.AddSingleton(Configuration);
+            services.AddSingleton<IConfiguration>(Configuration);
             services.AddTransient<LawsuitService>();
            
             services.AddMvc();
