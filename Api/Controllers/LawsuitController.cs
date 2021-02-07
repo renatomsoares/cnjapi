@@ -49,10 +49,11 @@ namespace Application.Controllers
         public IActionResult GetById([FromServices] LawsuitService service, int id)
         {
             Lawsuit lawsuit = service.GetById(x => x.IdLawsuit == id);
-            var response = Mapper.Map<Lawsuit, LawsuitView>(lawsuit);
 
-            if (response == null)
+            if (lawsuit == null)
                 return NotFound();
+
+            var response = Mapper.Map<Lawsuit, LawsuitView>(lawsuit);
 
             return Ok(response);
         }
@@ -75,7 +76,14 @@ namespace Application.Controllers
             var createdLawsuit = service.Add<LawsuitValidator>(lawsuit);
             var response = Mapper.Map<Lawsuit, LawsuitView>(createdLawsuit);
 
-            return Ok(response);
+            if (response == null)
+            {
+                return BadRequest();
+
+            } else
+            {
+                return Ok(response);
+            }
         }
 
 
