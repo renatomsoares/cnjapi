@@ -25,9 +25,9 @@ namespace Application.Controllers
         /// <response code="404">resource not found</response>
         /// <response code="500">internal error server</response>
         [HttpGet]
-        public IActionResult GetAll([FromServices] LawsuitService service)
+        public IActionResult GetAll([FromServices] LawsuitService service, LawsuitDTO lawsuitDto)
         {
-            List<Lawsuit> lawsuits = service.GetAll().ToList();
+            List<Lawsuit> lawsuits = service.GetAllFilter(lawsuitDto);
             var response = Mapper.Map<List<Lawsuit>, List<LawsuitView>>(lawsuits);
 
             if (!response.Any())

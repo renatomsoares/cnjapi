@@ -30,5 +30,16 @@ namespace Services
 
             }
         }
+
+        public List<Lawsuit> GetAllFilter(LawsuitDTO lawsuitDto)
+        {
+            List<Lawsuit> result = new List<Lawsuit>();
+            result = GetAll(x => (x.CaseNumber.Equals(lawsuitDto.CaseNumber) || string.IsNullOrEmpty(lawsuitDto.CaseNumber))
+                             && (x.CourtName.Contains(lawsuitDto.CourtName) || string.IsNullOrEmpty(lawsuitDto.CourtName))
+                             && (x.ResponsibleName.Contains(lawsuitDto.ResponsibleName) || string.IsNullOrEmpty(lawsuitDto.ResponsibleName))).ToList();
+
+            return result;
+        }
+
     }
 }
