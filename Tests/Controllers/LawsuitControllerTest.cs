@@ -157,7 +157,7 @@ namespace Tests
         {
             ConfigureEmptyGetAll();
 
-            var resultado = _fixture.Controller.GetAll(_fixture.ServiceMock.Object);
+            var resultado = _fixture.Controller.GetAll(_fixture.ServiceMock.Object, _fixture.LawsuitDTOMock.Object);
 
             Assert.IsType<NoContentResult>(resultado);
         }
