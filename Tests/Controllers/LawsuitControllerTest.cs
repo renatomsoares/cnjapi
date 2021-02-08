@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Domain.DTO;
@@ -58,7 +57,7 @@ namespace Tests
         }
 
         [Fact]
-        public void GetByIdWithNotFoundObjectResult()
+        public void GetByIdWithNotFoundResult()
         {
             EmptyGetByIdConfiguration();
 
@@ -131,6 +130,36 @@ namespace Tests
             var result = _fixture.Controller.Delete(_fixture.ServiceMock.Object, 1);
 
             Assert.IsType<OkResult>(result);
+        }
+
+        [Fact]
+        public void UpdateWithOkResult()
+        {
+            _fixture.Controller.ModelState.Clear();
+            NotEmptyGetByIdConfigurationCreatingTheFirstRegister();
+
+            _fixture.ServiceMock
+                .Setup(c => c
+                .Update<LawsuitValidator>(It.IsAny<Lawsuit>(), ""))
+                .Returns(Mock.Of<Lawsuit>());
+
+            var resultado = _fixture.Controller.Update(
+                    _fixture.ServiceMock.Object,
+
+                    Mock.Of<LawsuitDTO>(),
+                    1);
+
+            Assert.IsType<OkObjectResult>(resultado);
+        }
+
+        [Fact]
+        public void GetAllWithNoContentResult()
+        {
+            ConfigureEmptyGetAll();
+
+            var resultado = _fixture.Controller.GetAll(_fixture.ServiceMock.Object);
+
+            Assert.IsType<NoContentResult>(resultado);
         }
     }
 }

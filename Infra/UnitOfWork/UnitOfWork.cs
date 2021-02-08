@@ -1,14 +1,9 @@
 ﻿using Infra.Repository._BaseRepository;
 using Infra.Repository._BaseRepository.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.Linq;
-using System.Xml.Schema;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infra.UnitOfWork
 {
