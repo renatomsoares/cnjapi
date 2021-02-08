@@ -70,7 +70,7 @@ namespace Application.Controllers
         [HttpPost]
         public IActionResult Create([FromServices] LawsuitService service, [FromBody] LawsuitDTO lawsuitDto)
         {
-            service.LawsuitPrevalidations(lawsuitDto);
+            service.LawsuitPrevalidations(lawsuitDto, null);
 
             Lawsuit lawsuit = Mapper.Map<Lawsuit>(lawsuitDto);
             var createdLawsuit = service.Add<LawsuitValidator>(lawsuit);
@@ -100,6 +100,8 @@ namespace Application.Controllers
         [HttpPut("{id}")]
         public IActionResult Update([FromServices] LawsuitService service, [FromBody] LawsuitDTO lawsuitDto, int id)
         {
+            service.LawsuitPrevalidations(lawsuitDto, id);
+
             Lawsuit lawsuit = service.GetById(x => x.IdLawsuit == id);
 
             if (lawsuit == null)

@@ -17,13 +17,14 @@ namespace Services
             _uow = uow;
         }
 
-        public void LawsuitPrevalidations(LawsuitDTO lawsuitDto) 
+        public void LawsuitPrevalidations(LawsuitDTO lawsuitDto, int? updatedId) 
         {
             if (lawsuitDto != null)
             {
 
             // 1 - Number case exists
-            List<Lawsuit> lawsuits = GetAll(x => x.CaseNumber == lawsuitDto.CaseNumber).ToList();
+            List<Lawsuit> lawsuits = GetAll(x => (x.CaseNumber == lawsuitDto.CaseNumber) &&
+                (x.IdLawsuit != updatedId || updatedId == null)).ToList();
 
             if (lawsuits.Count > 0)
                 throw new ValidationException("Case number exists.");
