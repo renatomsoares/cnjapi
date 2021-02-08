@@ -31,7 +31,7 @@ namespace Application.Controllers
             var response = Mapper.Map<List<Lawsuit>, List<LawsuitView>>(lawsuits);
 
             if (!response.Any())
-                return NotFound();
+                return NoContent();
 
             return Ok(response);
         }
